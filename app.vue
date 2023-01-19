@@ -14,17 +14,19 @@
                 <v-btn
                   prepend-icon="mdi-plus"
                   rounded="pill"
+                  @click="addToto()"
                 >
                   Add
                 </v-btn>
                 <v-btn
                   prepend-icon="mdi-delete"
                   rounded="pill"
+                  @click="clearTodos()"
                 >
                   Clear
                 </v-btn>
 							</v-toolbar>
-							<v-alert
+							<v-alert v-if="todos.length === 0"
 								type="info"
 								density="comfortable"
                 variant="outlined"
@@ -33,20 +35,24 @@
 							>
 								No todo items yet
 							</v-alert>
-
-							<v-card class="ma-4" variant="outlined">
+              
+							<v-card v-for="(todo, i) in todos" class="ma-4" variant="outlined">
 								<v-form>
 									<v-text-field
+                    v-model="todo.title"
 										label="Title"
 										color="primary"
 										hide-details="auto"
+                    @input="updateTodo(i)"
 									/>
 									<v-textarea
+                    v-model="todo.description"
 										label="Description"
 										color="primary"
 										auto-grow
 										rows="1"
 										hide-details="auto"
+                    @input="updateTodo(i)"
 									></v-textarea>
 								</v-form>
 								<v-card
@@ -54,7 +60,7 @@
 								>
 									<v-card-text>
 										<div>
-											Created the 2020-07-01 12:00:00
+											{{todo.date.toLocaleString()}}
 										</div>
 									</v-card-text>
 									<v-btn
@@ -62,6 +68,7 @@
 										rounded="pill"
 										color="primary"
 										class="mr-2"
+                    @click="removeTodo(i)"
 									>
 										Delete
 									</v-btn>
@@ -77,77 +84,52 @@
 </template>
 -
 
-<script>
-export default {
-	data: () => ({ drawer: null }),
-};
-</script>
+<script setup lang="ts">
+import { ref } from 'vue'
 
-<!--<template>
-  <v-container>
-    <v-layout>
-      <v-flex xs12>
-        <v-card>
-          <v-card-title>My Todo List</v-card-title>
-          <v-card-text>
-            <v-list>
-              <v-list-item v-for="(todo, index) in 4" :key="index">
-                <v-list-item-title>{{ todo.title }}</v-list-item-title>
-                <v-list-item-subtitle>{{ todo.description }}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{ todo.date }}</v-list-item-subtitle>
-                <v-list-item-action>
-                  <v-btn color="error" >Remove</v-btn>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
-        <v-form @submit.prevent="addTodo">
-          <v-text-field v-model="newTodo.title" label="Title" />
-          <v-textarea v-model="newTodo.description" label="Description"></v-textarea>
-          <v-btn type="submit">Add Todo</v-btn>
-        </v-form>
-      </v-flex>
-    </v-layout>
-  </v-container>
-</template>
-
-<script>
-import { Component, Vue } from 'vue-property-decorator'
-import { VueClass } from 'vue-class-component'
-import Vuetify from 'vuetify'
-
-Vue.use(Vuetify)
-
-@Component
-export default class TodoList extends Vue {
-  @Prop({ default: [] }) todos!: Todo[]
-  newTodo = {
-    title: '',
-    description: '',
-    date: ''
-  }
-
-  @Watch('todos')
-  updateLocalStorage() {
-    localStorage.setItem('todos', JSON.stringify(this.todos))
-  }
-
-  @Method
-  addTodo() {
-    this.todos.push({
-      title: this.newTodo.title,
-      description: this.newTodo.description,
-      date: new Date().toLocaleString()
-    })
-    this.newTodo.title = ''
-    this.newTodo.description = ''
-  }
-
-  @Method
-  removeTodo(index: number) {
-    this.todos.splice(index, 1)
+class Todo {
+  title: string;
+  description: string;
+  date: Date;
+  constructor(title?: string, description?: string, date?: Date) {
+    this.title = title ? title : "";
+    this.description = description ? description : "";
+    this.date = date ? new Date(date) : new Date();
   }
 }
+
+const todos = ref<Todo[]>([]);
+
+if (typeof window !== 'undefined') {
+  const storedTodos = JSON.parse(localStorage.getItem('todos')) as Todo[] | null;
+  if (storedTodos) {
+    todos.value = storedTodos
+  }
+}
+
+function addToto() {
+  todos.value.unshift(new Todo());
+  // save to localstorage
+  localStorage.setItem('todos', JSON.stringify(todos.value))
+}
+
+function removeTodo (index: number) {
+  todos.value.splice(index, 1);
+  // save to localstorage
+  localStorage.setItem('todos', JSON.stringify(todos.value))
+}
+
+function updateTodo(index: number) {
+  let newDate = new Date();
+  todos.value[index].date = newDate;
+  // save to localstorage
+  localStorage.setItem('todos', JSON.stringify(todos.value))
+}
+
+function clearTodos() {
+  todos.value = [];
+  // save to localstorage
+  localStorage.setItem('todos', JSON.stringify(todos.value))
+}
+
 </script>
--->
