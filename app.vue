@@ -4,32 +4,31 @@
 			<v-app-bar-title> TODOS</v-app-bar-title>
 		</v-app-bar>
 		<v-main class="bg-grey-lighten-2">
-			<v-container fluid>
+			<v-container class="d-flex justify-center">
 				<v-row>
-					<v-col cols="12" md="10">
+					<v-col >
 						<v-card>
-							<v-toolbar dark>
+							<v-toolbar density="comfortable" color="primary" dark>
 								<v-toolbar-title>My Todo List</v-toolbar-title>
 								<v-spacer></v-spacer>
                 <v-btn
                   prepend-icon="mdi-plus"
                   rounded="pill"
-                  color="primary"
                 >
                   Add
                 </v-btn>
                 <v-btn
                   prepend-icon="mdi-delete"
                   rounded="pill"
-                  color="primary"
                 >
                   Clear
                 </v-btn>
 							</v-toolbar>
 							<v-alert
 								type="info"
-								color="primary"
 								density="comfortable"
+                variant="outlined"
+                color="primary"
 								class="ma-4"
 							>
 								No todo items yet
@@ -57,7 +56,6 @@
 										<div>
 											Created the 2020-07-01 12:00:00
 										</div>
-										<!--<v-spacer></v-spacer>-->
 									</v-card-text>
 									<v-btn
 										prepend-icon="mdi-delete"
@@ -69,6 +67,7 @@
 									</v-btn>
 								</v-card>
 							</v-card>
+              
 						</v-card>
 					</v-col>
 				</v-row>
