@@ -4,10 +4,10 @@
 			<v-app-bar-title> TODOS</v-app-bar-title>
 		</v-app-bar>
 		<v-main class="bg-grey-lighten-2">
-			<v-container class="d-flex justify-center">
-				<v-row>
-					<v-col >
-						<v-card>
+      <v-container class="d-flex justify-center">
+        <v-row>
+          <v-col >
+            <v-card>
 							<v-toolbar density="comfortable" color="primary" dark>
 								<v-toolbar-title>My Todo List</v-toolbar-title>
 								<v-spacer></v-spacer>
@@ -36,7 +36,7 @@
 								No todo items yet
 							</v-alert>
               
-							<v-card v-for="(todo, i) in todos" class="ma-4" variant="outlined">
+							<v-card v-else v-for="(todo, i) in todos" class="ma-4" variant="outlined">
 								<v-form>
 									<v-text-field
                     v-model="todo.title"
@@ -60,13 +60,14 @@
 								>
 									<v-card-text>
 										<div>
-											{{todo.date.toLocaleString()}}
+											<!--{{todo.date.toLocaleString()}}-->
+                      {{ new Date(todo.date).toLocaleString() }}
 										</div>
 									</v-card-text>
 									<v-btn
 										prepend-icon="mdi-delete"
 										rounded="pill"
-										color="primary"
+										color="secondary"
 										class="mr-2"
                     @click="removeTodo(i)"
 									>
@@ -82,7 +83,6 @@
 		</v-main>
 	</v-app>
 </template>
--
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -101,35 +101,31 @@ class Todo {
 const todos = ref<Todo[]>([]);
 
 if (typeof window !== 'undefined') {
-  const storedTodos = JSON.parse(localStorage.getItem('todos')) as Todo[] | null;
-  if (storedTodos) {
-    todos.value = storedTodos
+  let rawStoredTodos = localStorage.getItem('todos');
+  if (rawStoredTodos) {
+    todos.value = JSON.parse(rawStoredTodos);
   }
 }
 
 function addToto() {
   todos.value.unshift(new Todo());
-  // save to localstorage
-  localStorage.setItem('todos', JSON.stringify(todos.value))
+  localStorage.setItem('todos', JSON.stringify(todos.value));
 }
 
 function removeTodo (index: number) {
   todos.value.splice(index, 1);
-  // save to localstorage
   localStorage.setItem('todos', JSON.stringify(todos.value))
 }
 
 function updateTodo(index: number) {
   let newDate = new Date();
   todos.value[index].date = newDate;
-  // save to localstorage
   localStorage.setItem('todos', JSON.stringify(todos.value))
 }
 
 function clearTodos() {
   todos.value = [];
-  // save to localstorage
-  localStorage.setItem('todos', JSON.stringify(todos.value))
+  localStorage.removeItem('todos');
 }
 
 </script>

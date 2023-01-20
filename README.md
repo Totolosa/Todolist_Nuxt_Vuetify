@@ -1,28 +1,37 @@
-# Nuxt 3 Minimal Starter
+# Todo List SPA
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Project build with [Nuxt 3](https://nuxt.com/docs/getting-started/introduction) and [Vuetify](https://next.vuetifyjs.com/en/). Read documentations for more informations.
 
 ## Setup
 
-Make sure to install the dependencies:
-
+MANDATORY: Make sure to install the dependencies:
 ```bash
-# yarn
 yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
 ```
+
+OPTIONNAL: If you want to deploy with [Surge.sh](https://surge.sh/):
+```bash
+npm i -g surge
+```
+To install surge, then
+```bash
+surge
+```
+and ollow instruction to create your account.
+
 
 ## Development Server
 
 Start the development server on http://localhost:3000
 
 ```bash
-npm run dev
+yarn dev
+```
+
+Or with surge: You can change the name of url you want to use in line 2 of deploy_surge.sh
+
+```bash
+./deploy_surge.sh
 ```
 
 ## Production
@@ -30,7 +39,7 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+yarn build
 ```
 
 Locally preview production build:

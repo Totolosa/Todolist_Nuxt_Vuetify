@@ -14,6 +14,7 @@
     "@mdi/font": "^7.1.96",
     "nuxt-property-decorator": "^2.9.1",
     "sass": "^1.57.1",
+    "surge": "^0.23.1",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2",
     "vuetify": "^3.1.1",
