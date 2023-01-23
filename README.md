@@ -28,10 +28,10 @@ Start the development server on http://localhost:3000
 yarn dev
 ```
 
-Or with surge: You can change the name of url you want to use in line 2 of deploy_surge.sh
+Or with surge: 
 
 ```bash
-./deploy_surge.sh
+./deploy_surge.sh <domain_name>
 ```
 
 ## Production
